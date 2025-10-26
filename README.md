@@ -2,8 +2,7 @@
 
 This repository contains the **binary-only prototype** of the Cerberos Scanner.  
 
-**Important:** This software is provided **exclusively for prototype testing** under a **special agreement with Cerberos Security Labs UG**.  
-Unauthorized use, redistribution, or commercial deployment is strictly prohibited.  
+**Important:** This software is provided **exclusively for prototype testing** under a **special agreement with Cerberos Security Labs UG**. Unauthorized use, redistribution, or commercial deployment is strictly prohibited.  
 
 
 ## License & Terms of Use
