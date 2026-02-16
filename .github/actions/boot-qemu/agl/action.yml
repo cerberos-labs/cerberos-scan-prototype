@@ -66,4 +66,4 @@ runs:
     - name: Display Dashboard URL
       shell: bash
       run: |
-        echo "## [Dashboard URL](http://demo.corefense.io:8080/dashboard?client_id=${{ secrets.CLIENTID }}&job_id=${{ github.run_id }})"
+        echo "## [Dashboard URL](http://demo.corefense.io/corefense/dashboard?client_id=${{ secrets.CLIENTID }}&job_id=${{ github.run_id }})"
