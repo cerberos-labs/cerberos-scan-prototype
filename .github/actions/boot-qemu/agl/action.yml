@@ -28,6 +28,7 @@ runs:
         else
           echo "KVM is not supported on this machine. QEMU will run in emulation mode."
           echo "kvm=0" >> $GITHUB_OUTPUT
+        fi
 
     - name: Boot QEMU
       shell: bash
