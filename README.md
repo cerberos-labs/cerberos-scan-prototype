@@ -1,8 +1,8 @@
-# Cerberos Scanner Prototype
+# Corefense Scanner (Prototype)
 
-This is a **binary-only** repository for distributing the Cerberos scanner software prototype.  
+This is a **binary-only** repository for distributing the Corefense scanner software prototype.
 
-**Important:** This prototype is provided **exclusively for testing** under a **special agreement with Cerberos Security Labs UG**. Unauthorized use, redistribution, or commercial deployment is strictly prohibited.  
+**Important:** This prototype is provided **exclusively for testing** under a **special agreement with Corefense Security UG**. Unauthorized use, redistribution, or commercial deployment is strictly prohibited.  
 
 
 ## License & Terms of Use
