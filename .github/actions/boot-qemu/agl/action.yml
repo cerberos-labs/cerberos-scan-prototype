@@ -69,5 +69,5 @@ runs:
       run: |
         echo "## 🛡️ CoreFense Scan Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "[**View Dashboard →**](https://demo.corefense.io/corefense/dashboard?client_id=${{ secrets.CLIENTID }}&job_id=${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+        echo "[**View Dashboard →**](https://demo.corefense.io/dashboard?&job_id=${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
