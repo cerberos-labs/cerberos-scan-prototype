@@ -1,0 +1,79 @@
+name: Run Core-Agent
+description: Run core-agent against the prepared Yocto build directory
+
+inputs:
+  CLIENT_ID:
+    description: Tenant/client identifier forwarded to core-agent
+    required: true
+  JOB_ID:
+    description: Job identifier forwarded to core-agent
+    required: true
+  BUILD_DIR:
+    description: Yocto build directory containing conf/local.conf
+    required: true
+  CORE_AGENT_BIN:
+    description: Path to core-agent executable
+    required: true
+  TARGET_IMAGE:
+    description: Yocto image target to scan
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Resolve paths and run core-agent
+      shell: bash
+      env:
+        CLIENT_ID: ${{ inputs.CLIENT_ID }}
+        JOB_ID: ${{ inputs.JOB_ID }}
+        BUILD_DIR: ${{ inputs.BUILD_DIR }}
+        CORE_AGENT_BIN: ${{ inputs.CORE_AGENT_BIN }}
+        TARGET_IMAGE: ${{ inputs.TARGET_IMAGE }}
+      run: |
+        set -euo pipefail
+
+        normalize_path() {
+          local value="$1"
+          value="${value//\$GITHUB_WORKSPACE/$GITHUB_WORKSPACE}"
+          value="${value//\$\{GITHUB_WORKSPACE\}/$GITHUB_WORKSPACE}"
+          printf '%s' "$value"
+        }
+
+        BUILD_DIR="$(normalize_path "$BUILD_DIR")"
+        CORE_AGENT_BIN="$(normalize_path "$CORE_AGENT_BIN")"
+
+        if [ ! -x "$CORE_AGENT_BIN" ]; then
+          echo "core-agent binary is missing or not executable: $CORE_AGENT_BIN"
+          exit 1
+        fi
+
+        if [ ! -d "$BUILD_DIR/conf" ]; then
+          echo "Yocto build dir looks invalid (missing conf/): $BUILD_DIR"
+          exit 1
+        fi
+
+        "$CORE_AGENT_BIN" run \
+          -d "$BUILD_DIR" \
+          --target "$TARGET_IMAGE"
+
+    - name: Append core-agent markdown summary
+      shell: bash
+      run: |
+        if [ -f /tmp/core-agent-github-summary.md ]; then
+          cat /tmp/core-agent-github-summary.md >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+        else
+          echo "### Security Highlights" >> "$GITHUB_STEP_SUMMARY"
+          echo "core-agent did not produce /tmp/core-agent-github-summary.md for this run." >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+        fi
+
+    - name: Display Dashboard URL
+      shell: bash
+      run: |
+        echo "---" >> "$GITHUB_STEP_SUMMARY"
+        echo "" >> "$GITHUB_STEP_SUMMARY"
+        echo "### Dashboard" >> "$GITHUB_STEP_SUMMARY"
+        echo "[**View Dashboard →**](https://demo.corefense.io/dashboard?job_id=${{ inputs.JOB_ID }})" >> "$GITHUB_STEP_SUMMARY"
+        echo "" >> "$GITHUB_STEP_SUMMARY"
+
